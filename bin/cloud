@@ -2,12 +2,12 @@
 
 var app = require('../app');
 var debug = require('debug')('chat');
-var io = require('../io');
+//var io = require('../io');
 
 var http = require('http');
 
 var server = http.createServer(app);
-io.attach(server);
+//io.attach(server);
 var port = process.env.PORT || 3000;
 
 server.listen(port, function () {
