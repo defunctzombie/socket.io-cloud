@@ -2,10 +2,7 @@
 var express = require('express');
 var bodyParser = require('body-parser');
 var debug = require('debug')('chat');
-//var EventEmitter = require('events').EventEmitter;
 
-
-console.log("importing socket io cloud js stuff");
 
 // now needed by 'app'-----------
 var SocketIO = require('socket.io');
@@ -15,23 +12,14 @@ var namespace_list = ['ns1', 'ns2', 'ns3'];
 
 var namespaces = {};
 
-for (i in namespace_list) {
-    namespaces[namespace_list[i]] = io.of('/'+namespace_list[i]);
-    namespaces[namespace_list[i]].on('connection', handleConnection(namespaces[namespace_list[i]]));
-}
+namespace_list.forEach( function(namespace) {
+    namespaces[namespace] = io.of('/'+namespace);
+    namespaces[namespace].on('connection', handleConnection(namespaces[namespace]));
+});
 
 function handleConnection(ns) {
     return function (socket) {
         console.log('connected');
-
-      // when the client emits 'new message', this listens and executes
-      socket.on('new message', function (data) {
-        // we tell the client to execute 'new message'
-        socket.broadcast.emit('new message', {
-          username: "hal",
-          message: data
-        });
-      });
     }
 }
 
@@ -50,19 +38,19 @@ app.use(bodyParser.json());
 app.post('/update', function(req,res) {
   var body = req.body;
   var id = body.id;
+  var type = body.type;
   var msg = body.message;
 
   console.log('id was: ' + id);
 
   // TODO:error checks for invalid id, empty id, empty request
 
-  // TODO: fix hardcode
   var nsp = namespaces[id];
-  nsp.emit('new message', msg);
-  console.log('new message was: ' + msg);
+  nsp.emit(type, msg);
+  console.log(type + 'action had payload: ' + msg);
 
   res.json({
-    message: body.message
+    message: msg
   });
 });
 
