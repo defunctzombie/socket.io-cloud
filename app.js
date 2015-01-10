@@ -4,18 +4,20 @@ var bodyParser = require('body-parser');
 var debug = require('debug')('chat');
 //var EventEmitter = require('events').EventEmitter;
 
+
+console.log("importing socket io cloud js stuff");
+
 // now needed by 'app'-----------
 var SocketIO = require('socket.io');
 var io = new SocketIO();
 
-var namespaces = [
-    io.of('/ns1'),
-    io.of('/ns2'),
-    io.of('/ns3')
-];
+var namespace_list = ['ns1', 'ns2', 'ns3'];
 
-for (i in namespaces) {
-    namespaces[i].on('connection', handleConnection(namespaces[i]));
+var namespaces = {};
+
+for (i in namespace_list) {
+    namespaces[namespace_list[i]] = io.of('/'+namespace_list[i]);
+    namespaces[namespace_list[i]].on('connection', handleConnection(namespaces[namespace_list[i]]));
 }
 
 function handleConnection(ns) {
@@ -26,56 +28,9 @@ function handleConnection(ns) {
       socket.on('new message', function (data) {
         // we tell the client to execute 'new message'
         socket.broadcast.emit('new message', {
-          username: socket.username,
+          username: "hal",
           message: data
         });
-      });
-
-      // when the client emits 'add user', this listens and executes
-      socket.on('add user', function (username) {
-        // we store the username in the socket session for this client
-        socket.username = username;
-        // add the client's username to the global list
-        usernames[username] = username;
-        ++numUsers;
-        addedUser = true;
-        socket.emit('login', {
-          numUsers: numUsers
-        });
-        // echo globally (all clients) that a person has connected
-        socket.broadcast.emit('user joined', {
-          username: socket.username,
-          numUsers: numUsers
-        });
-      });
-
-      // when the client emits 'typing', we broadcast it to others
-      socket.on('typing', function () {
-        socket.broadcast.emit('typing', {
-          username: socket.username
-        });
-      });
-
-      // when the client emits 'stop typing', we broadcast it to others
-      socket.on('stop typing', function () {
-        socket.broadcast.emit('stop typing', {
-          username: socket.username
-        });
-      });
-
-      // when the user disconnects.. perform this
-      socket.on('disconnect', function () {
-        // remove the username from global usernames list
-        if (addedUser) {
-          delete usernames[socket.username];
-          --numUsers;
-
-          // echo globally that this client has left
-          socket.broadcast.emit('user left', {
-            username: socket.username,
-            numUsers: numUsers
-          });
-        }
       });
     }
 }
@@ -97,10 +52,12 @@ app.post('/update', function(req,res) {
   var id = body.id;
   var msg = body.message;
 
+  console.log('id was: ' + id);
+
   // TODO:error checks for invalid id, empty id, empty request
 
   // TODO: fix hardcode
-  var nsp = namespaces[0];
+  var nsp = namespaces[id];
   nsp.emit('new message', msg);
   console.log('new message was: ' + msg);
 
@@ -109,4 +66,21 @@ app.post('/update', function(req,res) {
   });
 });
 
-module.exports = app;
+//module.exports = {SocketIOCloud: io, app: app};
+//module.exports = app;
+
+var debug = require('debug')('chat');
+//var io = require('../io');
+
+var http = require('http');
+
+var server = http.createServer(app);
+io.attach(server);
+var port = process.env.PORT || 3000;
+
+server.listen(port, function () {
+  debug('Server listening at port %d', port);
+});
+
+module.exports = io;
+console.log("done loading app.js");
