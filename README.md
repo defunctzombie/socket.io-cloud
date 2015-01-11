@@ -27,6 +27,8 @@ var socket = io("http://localhost:3000/namespace.id");
 Communications are done via `POST` requests to the socket.io cloud server.
 See socket.io-cloud-examples for a simple app example that uses the socket.io cloud.
 
+Note: Cloud Server is running on port 3000 and the Client Server is running on 3001 in the examples
+
 
 ## Features
 
