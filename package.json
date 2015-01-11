@@ -1,9 +1,9 @@
 {
-  "name": "socket.io-chat",
+  "name": "socket.io-cloud",
   "version": "0.0.0",
-  "description": "A simple chat client using socket.io",
+  "description": "A socket.io cloud server",
   "main": "index.js",
-  "author": "Grant Timmerman",
+  "author": "Nick Guo & Vishal Parekh",
   "private": true,
   "license": "BSD",
   "dependencies": {
