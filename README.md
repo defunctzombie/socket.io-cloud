@@ -24,6 +24,7 @@ Then, create the socket connection by putting the following into the client-side
 var socket = io("http://localhost:3000/namespace.id
 ```
 
+Note: Cloud Server is running on port 3000 and the Client Server is running on 3001
 See socket.io-cloud-examples for a simple app example that uses the socket.io cloud.
 
 
