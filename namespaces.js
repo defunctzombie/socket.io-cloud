@@ -12,7 +12,8 @@ namespace_list.forEach( function(namespace) {
 
 function handleConnection(ns) {
     return function (socket) {
-        debug('connected');
+	    debug(socket.handshake.headers.host);
+	    debug('connected');
     }
 }
 

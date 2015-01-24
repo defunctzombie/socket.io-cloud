@@ -1,3 +1,4 @@
+var debug = require('debug')('cloud');
 var SocketIO = require('socket.io');
 
 // io is a Socket IO singleton
