@@ -26,15 +26,8 @@ app.post('/update', function(req,res) {
   //nsp.emit(type, payload);
   
   console.dir(nsp);  
-//  console.log("\n\n\nLog:" + nsp.connected.handshake.headers.host);
   debug(type + ' action had payload: ' + payload);
-
  
-  //nsp.sockets[0].emit(type,payload);
-
-  //console.log(nsp.sockets[0].handshake.headers.host);
-
-  //console.log(nsp.sockets.length);
   var i;
   for ( i=0; i <nsp.sockets.length ; i++)
   {
@@ -44,8 +37,9 @@ app.post('/update', function(req,res) {
 	   {
 		   nsp.sockets[i].emit(type,payload);
 	   }
-	   console.log("Hostname and subdomain" + hostName + " " + subDomain);
+	   debug("Hostname and subdomain" + hostName + " " + subDomain);
   }
+ 
   res.json({
     payload: payload
   });
