@@ -1,15 +1,17 @@
 #!/usr/bin/env node
 
-var app = require('../app');
-var debug = require('debug')('cloud');
-var io = require('../io');
-
+var localenv = require('localenv');
 var http = require('http');
+
+var debug = require('debug')('cloud');
+
+var app = require('../app');
+var io = require('../io');
 
 var server = http.createServer(app);
 io.attach(server);
-var port = process.env.PORT || 3000;
 
+var port = process.env.PORT || 3000;
 
 server.listen(port, function () {
   debug('Server listening at port %d', port);
