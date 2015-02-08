@@ -1,32 +1,58 @@
-// Setup basic express server
 var express = require('express');
-var bodyParser = require('body-parser');
+var taters = require('taters');
+var hbs = require('hbs');
+var makeover = require('makeover');
+var stylish = require('stylish');
+var enchilada = require('enchilada');
+var serve_favicon = require('serve-favicon');
+var serve_static = require('serve-static');
 var debug = require('debug')('cloud');
 
-var Cloud = require('./cloud');
+var api = require('./routes/api');
+
+var PRODUCTION = process.env.NODE_ENV === 'production';
 
 var app = express();
+app.disable('x-powered-by');
+app.enable('trust proxy');
 
-app.use(bodyParser.json());
+app.set('views', __dirname + '/views');
+app.set('view engine', 'html' );
+app.set('view options', {
+  cache: PRODUCTION
+});
+app.engine('html', hbs.__express);
 
-app.post('/update', function(req, res, next) {
-  var body = req.body;
-  var id = body.id;
-  var type = body.type;
-  var payload = body.payload;
+taters(app, {
+  cache: PRODUCTION
+});
 
-  var app = body.app;
+app.use(serve_favicon(__dirname + '/public/favicon.ico'));
 
-  debug('app %s', app);
+app.use('/api', api);
 
-  Cloud.emit('message', {
-    app: app,
-    namespace: id,
-    event: type,
-    payload: payload
-  });
+app.use(stylish({
+    src: __dirname + '/public',
+    cache: PRODUCTION,
+    compress: PRODUCTION,
+    setup: function(renderer) {
+        renderer
+          .set('include css', true)
+          .use(makeover())
+        return renderer;
+    }
+}));
 
-  res.sendStatus(200);
+app.use(enchilada({
+  src: __dirname + '/public',
+  compress: PRODUCTION,
+  cache: PRODUCTION
+}));
+
+app.use(serve_static(__dirname + '/static'));
+
+app.get('/', function(req, res, next) {
+  res.render('index');
 });
 
 module.exports = app;
