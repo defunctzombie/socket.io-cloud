@@ -1,0 +1,20 @@
+<div>
+  <div data-visible="error" class="alert alert-danger">{{error}}</div>
+  <div>
+    <form class="form form-inline" on-submit="on_create_app">
+      <div class="form-group">
+        <input type="text" name="name" class="form-control" placeholder="app-name" />
+      </div>
+      <button class="btn btn-primary">create</button>
+    </form>
+  </div>
+  <table class="table">
+    <tr each="apps">
+      <td>{{id}}</td>
+      <td>{{api_key}}</td>
+      <td>
+        <button class="btn btn-danger" on-click="on_delete_app">delete</button>
+      </td>
+    </tr>
+  </table>
+</div>
