@@ -1,0 +1,32 @@
+<div data-visible="app">
+  <div>
+    <h3>{{app.id}}</h3>
+    <h4><strong>Api Key:</strong>&nbsp;{{app.api_key}}</h4>
+    <h4><strong>Client URL:</strong>&nbsp;ws://{{app.id}}.cloud.defunctzombie.com</h4>
+  </div>
+
+  <hr/>
+
+  <h4>Receiving Events</h4>
+  <div>
+    <pre data-html="client_code"></pre>
+  </div>
+
+  <h4>Emitting Events</h4>
+  <div>
+    <pre data-html="server_code"></pre>
+  </div>
+
+  <hr/>
+  <h4>Emit Test Event</h4>
+  <div>
+    Will emit a <strong>test</strong> event with data <strong>Hello World!</strong> to the <strong>/testing</strong> namespace for your app.
+    <button class="btn btn-success" on-click="on_emit_test_event">Emit Test Event</button>
+  </div>
+
+  <hr/>
+
+  <div>
+    <button class="btn btn-danger" on-click="on_delete">Delete App</button>
+  </div>
+</div>

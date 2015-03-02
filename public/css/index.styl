@@ -1,3 +1,109 @@
 // root style file
 
 @import "./lib/bootstrap.css";
+@import "./lib/material.css";
+@import "./lib/github.css";
+
+body {
+    padding-top: 7px;
+    font-family: 'Open Sans', sans;
+}
+
+h1 {
+    color: #7E7D9C;
+    padding: 60px;
+    padding-bottom: 3px;
+}
+
+h2 {
+    color: #9E9DB3;
+    font-size: 1.2em;
+    padding: 30px;
+    padding-top: 3px;
+    padding-bottom: 80px;
+}
+
+.bar {
+    background: url("/img/galaxy.jpg");
+    height: 7px;
+    background-size: cover;
+    background-position: left 60%;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    overflow: hidden;
+    z-index: 1000;
+}
+
+.circle {
+    border-radius: 50%;
+    border: 2px solid #AE51B4;
+    color: #AE51B4;
+    width: 50px;
+    height: 50px;
+    font-weight: 600;
+    font-size: 25px;
+    text-align: center;
+    line-height: 45px;
+}
+
+.step {
+    font-size: 20px;
+    text-align: center;
+    padding: 10px;
+    color: #764179;
+}
+
+.start-here {
+    padding: 80px;
+}
+
+.login-panel {
+    margin-top: 15%;
+}
+
+.navbar-brand {
+    width: 250px;
+    border-right: 1px solid #eee;
+}
+
+.nav-sidebar {
+    width: 250px;
+}
+
+.nav-sidebar-fixed {
+    position: fixed;
+    top: 67px;
+    bottom: 0;
+    left: 0;
+    width: 250px;
+    border-right: 1px solid #888;
+}
+
+.app-main {
+    position: fixed;
+    overflow: auto;
+    top: 67px;
+    bottom: 0;
+    left: 250px;
+    right: 0;
+    padding: 16px;
+}
+
+.nav-sidebar .nav li {
+    padding-left: 5px;
+}
+
+.nav-sidebar .nav li.active {
+    padding-left: 0;
+    border-left: 5px solid #3F51B5;
+}
+
+.nav-sidebar .nav li a:hover {
+    background-color: #E3E4EB;
+}
+
+hr {
+    background-color: #B48AC7;
+    height: 1px;
+}

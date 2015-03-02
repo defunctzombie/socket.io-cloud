@@ -71,8 +71,11 @@ SignupPage.prototype._new_session = function(email, password) {
       return;
     }
 
-    // good session.. what do we do!?
+    window.location = '/app';
   });
 };
+
+var view = SignupPage();
+view.render(document.body);
 
 module.exports = SignupPage;

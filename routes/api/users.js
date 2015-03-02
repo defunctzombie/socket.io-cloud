@@ -1,5 +1,6 @@
 var Router = require('express').Router;
 var BadRequest = require('httperrors').BadRequest;
+var validator = require('validator');
 
 var User = require('iocloud-models/User');
 
@@ -10,6 +11,14 @@ router.route('/')
 
   var email = req.body.email;
   var password = req.body.password;
+
+  if (!validator.isEmail(email)) {
+    return next(BadRequest('Please specify a valid email address'));
+  }
+
+  if (password === undefined || password.length === 0) {
+    return next(BadRequest('Password cannot be blank'));
+  }
 
   // lookup existing user
   User.findOne({ email: email }, req.error(function(user) {

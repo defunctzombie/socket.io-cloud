@@ -38,7 +38,7 @@ router.route('/:app_id')
   var user = req.current_user;
   var app_id = req.params.app_id;
 
-  if (! /^[a-z][a-z0-9-]*$/.test(app_id)) {
+  if (! /^[a-z]([a-z0-9-]{50})?[a-z]$/.test(app_id)) {
     return next(BadRequest('Invalid application name. Only lowercase letters and dashes allowed'));
   }
 
@@ -48,9 +48,16 @@ router.route('/:app_id')
     user_id: user.id
   });
 
-  app.save(req.error(function() {
-    res.json(app);
+  App.count({ id: app_id }, req.error(function(count) {
+    if (count > 0) {
+      return next(BadRequest('Name already taken'));
+    }
+
+    app.save(req.error(function() {
+      res.json(app);
+    }));
   }));
+
 })
 // remove an app
 .delete(function(req, res, next) {

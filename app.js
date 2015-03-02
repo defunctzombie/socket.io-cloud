@@ -16,6 +16,8 @@ mongoose.connect(process.env.MONGODB_URL);
 
 var api = require('./routes/api');
 
+var User = require('iocloud-models/User');
+
 var PRODUCTION = process.env.NODE_ENV === 'production';
 
 var app = express();
@@ -66,7 +68,7 @@ app.use(enchilada({
   transforms: [browserify_file({ minify: { collapseWhitespace: true, removeComments: true }})],
 }));
 
-app.use(serve_static(__dirname + '/static'));
+app.use(serve_static(__dirname + '/public'));
 
 app.use(cookie_parser());
 app.use(yummy({
@@ -77,15 +79,42 @@ app.use(yummy({
 app.use('/api', api);
 
 app.get('/', function(req, res, next) {
-  res.render('index');
+  res.render('landing', { layout: false });
+});
+
+app.route('/app')
+.get(function(req, res, next) {
+  if (!req.session || !req.session.user_id) {
+    return res.redirect('/signup');
+  }
+
+  req.user_id = req.session.user_id;
+  User.findOne({ id: req.user_id }, function(err, user) {
+    if (err) {
+      return next(err);
+    }
+
+    if (!user) {
+      // TODO destroy session
+      return res.redirect('/signup');
+    }
+
+    req.user = user;
+    next();
+  })
+})
+.get(function(req, res, next) {
+  res.locals.CLOUD = JSON.stringify({
+    user: {
+      id: req.user.id,
+      email: req.user.email
+    }
+  });
+  res.render('app');
 });
 
 app.get('/signup', function(req, res, next) {
-  res.render('index');
-});
-
-app.get('/overview', function(req, res, next) {
-  res.render('index');
+  res.render('signup');
 });
 
 module.exports = app;

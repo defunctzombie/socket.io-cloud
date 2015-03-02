@@ -1,0 +1,13 @@
+<div>
+  <div data-view="navbar"></div>
+
+  <div class="nav-sidebar nav-sidebar-fixed">
+    <ul class="nav nav-stacked">
+      <li each="apps" class="{{ active ? 'active' : '' }}"><a href="#" on-click="on_show_app">{{id}}</a></li>
+    </ul>
+  </div>
+  <div class="app-main">
+    <div data-view="app_view"></div>
+  </div>
+
+</div>

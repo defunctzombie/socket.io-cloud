@@ -10,7 +10,7 @@ var schema = mongoose.Schema({
   created_at: { type: Date, default: Date.now }
 }, { versionKey: false, id: false });
 
-schema.index({ id: 1 });
+schema.index({ id: 1 }, { unique: true });
 schema.index({ user_id: 1 });
 schema.index({ api_key: 1 });
 
