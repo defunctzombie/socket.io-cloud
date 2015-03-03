@@ -63,7 +63,7 @@ app.use(stylish({
 app.use(enchilada({
   src: __dirname + '/public',
   debug: !PRODUCTION,
-  compress: PRODUCTION,
+  compress: false, // PRODUCTION TODO when multiline comments are fixed
   cache: PRODUCTION,
   transforms: [browserify_file({ minify: { collapseWhitespace: true, removeComments: true }})],
 }));

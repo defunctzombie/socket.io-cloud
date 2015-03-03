@@ -4,7 +4,7 @@ var multiline = require('multiline');
 
 var tmpl = require('./AppView.html');
 
-var client_code = multiline(function() {/*@preserve
+var client_code = multiline(function() {/*
 <script src="//cloud.defunctzombie.com/socket.io/socket.io.js"></script>
 <script>
 var socket = io('ws://app-name.cloud.defunctzombie.com/news');
@@ -14,7 +14,7 @@ socket.on('story', function (data) {
 </script>
 */});
 
-var server_code = multiline(function() {/*@preserve
+var server_code = multiline(function() {/*
 POST cloud.defunctzombie.com/api/apps/<app-name>/events
 Authorization: <your api key>
 
@@ -26,7 +26,6 @@ Authorization: <your api key>
     author: 'Grumpy Cat'
   }
 }
-
 */});
 
 var AppView = function() {
