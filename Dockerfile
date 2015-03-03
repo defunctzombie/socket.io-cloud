@@ -1,7 +1,6 @@
-FROM node:0.10.36-slim
+FROM node:0.10.36
 MAINTAINER Roman Shtylman <shtylman@gmail.com>
 
-RUN apt-get update && apt-get install -y git
 RUN npm i -g npm@2.2.0
 
 RUN mkdir -p /usr/src/app
