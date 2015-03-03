@@ -38,7 +38,7 @@ router.route('/:app_id')
   var user = req.current_user;
   var app_id = req.params.app_id;
 
-  if (! /^[a-z]([a-z0-9-]{50})?[a-z]$/.test(app_id)) {
+  if (! /^[a-z][a-z0-9-]{0,50}[a-z]$/.test(app_id)) {
     return next(BadRequest('Invalid application name. Only lowercase letters and dashes allowed'));
   }
 
